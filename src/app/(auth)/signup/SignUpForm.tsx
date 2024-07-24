@@ -63,7 +63,7 @@ export default function SignUpForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email" type="email" {...field} />
+                <Input placeholder="Dickinson College Email" type="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
