@@ -1,5 +1,4 @@
 "use client";
-
 import { useSession } from "@/app/(main)/SessionProvider";
 import { PostData } from "@/lib/types";
 import { cn, formatRelativeDate } from "@/lib/utils";
@@ -9,7 +8,9 @@ import Link from "next/link";
 import Linkify from "../Linkify";
 import UserAvatar from "../UserAvatar";
 import UserTooltip from "../UserTooltip";
+import LikeButton from "./LikeButton";
 import PostMoreButton from "./PostMoreButton";
+
 interface PostProps {
   post: PostData;
 }
@@ -55,14 +56,20 @@ export default function Post({ post }: PostProps) {
       {!!post.attachments.length && (
         <MediaPreviews attachments={post.attachments} />
       )}
+      <hr className="text-muted-foreground" />
+      <LikeButton
+        postId={post.id}
+        initialState={{
+          likes: post._count.likes,
+          isLikedByUser: post.likes.some((like) => like.userId === user.id),
+        }}
+      />
     </article>
   );
 }
-
 interface MediaPreviewsProps {
   attachments: Media[];
 }
-
 function MediaPreviews({ attachments }: MediaPreviewsProps) {
   return (
     <div
@@ -77,11 +84,9 @@ function MediaPreviews({ attachments }: MediaPreviewsProps) {
     </div>
   );
 }
-
 interface MediaPreviewProps {
   media: Media;
 }
-
 function MediaPreview({ media }: MediaPreviewProps) {
   if (media.type === "IMAGE") {
     return (
@@ -94,18 +99,16 @@ function MediaPreview({ media }: MediaPreviewProps) {
       />
     );
   }
-
-  // if (media.type === "VIDEO") {
-  //   return (
-  //     <div>
-  //       <video
-  //         src={media.url}
-  //         controls
-  //         className="mx-auto size-fit max-h-[30rem] rounded-2xl"
-  //       />
-  //     </div>
-  //   );
-  // }
-
+  if (media.type === "VIDEO") {
+    return (
+      <div>
+        <video
+          src={media.url}
+          controls
+          className="mx-auto size-fit max-h-[30rem] rounded-2xl"
+        />
+      </div>
+    );
+  }
   return <p className="text-destructive">Unsupported media type</p>;
 }
