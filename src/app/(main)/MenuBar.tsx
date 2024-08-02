@@ -46,7 +46,7 @@ export default function MenuBar({className}: MenuBarProps) {
         className="flex items-center justify-start gap-3"
         title="Bookmarks"
         asChild>
-            <Link href="/bookmards">
+            <Link href="/bookmarks">
                 <Bookmark />
                 <span className="hidden lg:inline">Bookmarks</span>
             </Link>
