@@ -1,3 +1,4 @@
+//page.tsx
 import loginImage from "@/assets/login-image.jpg";
 import { Metadata } from "next";
 import Image from "next/image";

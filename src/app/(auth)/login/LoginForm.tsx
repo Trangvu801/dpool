@@ -16,6 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { login } from "./actions";
+import Link from "next/link";
 
 export default function LoginForm() {
   const [error, setError] = useState<string>();
@@ -68,9 +69,26 @@ export default function LoginForm() {
             </FormItem>
           )}
         />
-        <LoadingButton loading={isPending} type="submit" className="w-full">
-          Log in
-        </LoadingButton>
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              id="rememberMe"
+              className="mr-2 rounded border-gray-300 text-primary focus:ring-primary"
+            />
+            <label htmlFor="rememberMe" className="text-sm">
+              Remember Me
+            </label>
+          </div>
+          <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+            Forgot your account?
+          </Link>
+        </div>
+        <div className="mt-4">
+          <LoadingButton loading={isPending} type="submit" className="w-full">
+            Log in
+          </LoadingButton>
+        </div>
       </form>
     </Form>
   );
