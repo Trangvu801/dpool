@@ -63,10 +63,10 @@ export default async function MenuBar({ className }: MenuBarProps) {
       <Button
         variant="ghost"
         className="flex items-center justify-start gap-3"
-        title="Guidelines"
+        title="D-Pool Community Guidelines"
         asChild
       >
-        <Link href="/guidelines">
+        <Link href="/guideline">
           <BookOpen />
           <span className="hidden lg:inline">Guidelines</span>
         </Link>
