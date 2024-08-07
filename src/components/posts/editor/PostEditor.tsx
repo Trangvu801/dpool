@@ -51,26 +51,36 @@ export default function PostEditor() {
   const input = editor?.getText({ blockSeparator: "\n" }) || "";
 
   function onSubmit() {
-    let contentWithHashtag = input;
-    if (rideOption === "wantRide") {
-      contentWithHashtag += "\n#wantaride"; // New line before hashtag
-    } else if (rideOption === "offerRide") {
-      contentWithHashtag += "\n#offeraride"; // New line before hashtag
-    }
-  
-    mutation.mutate(
-      {
-        content: contentWithHashtag,
-        mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
-      },
-      {
-        onSuccess: () => {
-          editor?.commands.clearContent();
-          resetMediaUploads();
-          setRideOption(''); // Reset ride option
+    const confirmMessage = 
+      "Please remember to include the following details:\n" +
+      "- Your destination and arrival locations\n" +
+      "- Date and time of travel\n" +
+      "- The number of passengers you can accommodate or need\n" +
+      "- Any desired fees\n\n" +
+      "Do you want to submit your post?";
+
+    if (window.confirm(confirmMessage)) {
+      let contentWithHashtag = input;
+      if (rideOption === "wantRide") {
+        contentWithHashtag += "\n#wantaride"; // New line before hashtag
+      } else if (rideOption === "offerRide") {
+        contentWithHashtag += "\n#offeraride"; // New line before hashtag
+      }
+    
+      mutation.mutate(
+        {
+          content: contentWithHashtag,
+          mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
         },
-      },
-    );
+        {
+          onSuccess: () => {
+            editor?.commands.clearContent();
+            resetMediaUploads();
+            setRideOption(''); // Reset ride option
+          },
+        },
+      );
+    }
   }
 
   function onPaste(e: ClipboardEvent<HTMLInputElement>) {
@@ -120,7 +130,7 @@ export default function PostEditor() {
           Offer a Ride
         </label>
       </div>
-      
+
       {!!attachments.length && (
         <AttachmentPreviews
           attachments={attachments}
