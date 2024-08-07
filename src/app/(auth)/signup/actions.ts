@@ -1,4 +1,3 @@
-//actions.ts
 "use server";
 
 import { lucia } from "@/auth";
@@ -9,10 +8,10 @@ import { generateIdFromEntropySize } from "lucia";
 import { isRedirectError } from "next/dist/client/components/redirect";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { sendVerificationCode } from "@/lib/mailer";
+import { generateEmailVerificationCode } from "@/lib/generateEmailVerificationCode";
 
-export async function signUp(
-  credentials: SignUpValues,
-): Promise<{ error: string }> {
+export async function signUp(credentials: SignUpValues): Promise<{ error: string }> {
   try {
     const { username, email, password } = signUpSchema.parse(credentials);
 
@@ -62,8 +61,12 @@ export async function signUp(
         displayName: username,
         email,
         passwordHash,
+        emailVerified: false,
       },
     });
+
+    const verificationCode = await generateEmailVerificationCode(userId, email);
+    await sendVerificationCode(email, verificationCode);
 
     const session = await lucia.createSession(userId, {});
     const sessionCookie = lucia.createSessionCookie(session.id);
@@ -76,7 +79,7 @@ export async function signUp(
     return redirect("/");
   } catch (error) {
     if (isRedirectError(error)) throw error;
-    console.error(error);
+    console.error("Sign up error: ", error);
     return {
       error: "Something went wrong. Please try again.",
     };
