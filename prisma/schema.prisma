@@ -34,23 +34,23 @@ model User {
   comments              Comment[]
   receivedNotifications Notification[] @relation("Recipient")
   issuedNotifications   Notification[] @relation("Issuer")
-  emailVerificationCodes EmailVerificationCode[]
+  // emailVerificationCodes EmailVerificationCode[]
 
   createdAt DateTime @default(now())
 
   @@map("users")
 }
 
-model EmailVerificationCode {
-  id        String   @id @default(cuid())
-  code      String
-  userId    String
-  email     String
-  expiresAt DateTime
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+// model EmailVerificationCode {
+//   id        String   @id @default(cuid())
+//   code      String
+//   userId    String
+//   email     String
+//   expiresAt DateTime
+//   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@map("email_verification_codes")
-}
+//   @@map("email_verification_codes")
+// }
 
 model Session {
   id        String   @id
@@ -160,5 +160,5 @@ enum NotificationType {
   LIKE
   FOLLOW
   COMMENT
-  TAG
+  // TAG
 }

@@ -29,12 +29,12 @@ export default function Notification({ notification }: NotificationProps) {
       message: `${notification.issuer.displayName} liked your post`,
       icon: <Heart className="size-7 fill-red-500 text-red-500" />,
       href: `/posts/${notification.postId}`,
-    },
-    TAG: {
-      message: `${notification.issuer.displayName} tag you`,
-      icon: <AtSign className="size-7 fill-red-500 text-red-500" />,
-      href: `/posts/${notification.postId}`,
-    },
+    }
+    // TAG: {
+    //   message: `${notification.issuer.displayName} tag you`,
+    //   icon: <AtSign className="size-7 fill-red-500 text-red-500" />,
+    //   href: `/posts/${notification.postId}`,
+    // },
   };
 
   const { message, icon, href } = notificationTypeMap[notification.type];
