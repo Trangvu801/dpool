@@ -1,3 +1,4 @@
+//src/app/api/posts/[postId]/comments/route.ts
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { CommentsPage, getCommentDataInclude } from "@/lib/types";
