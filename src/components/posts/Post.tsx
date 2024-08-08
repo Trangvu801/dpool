@@ -1,4 +1,4 @@
-
+//src/components/posts/Post.tsx
 "use client";
 
 import { useSession } from "@/app/(main)/SessionProvider";

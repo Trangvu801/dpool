@@ -1,3 +1,4 @@
+//src/app/api/users/username/[username]/route.ts
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
 import { getUserDataSelect } from "@/lib/types";

@@ -5,6 +5,7 @@ import Link from "next/link";
 import UserAvatar from "../UserAvatar";
 import UserTooltip from "../UserTooltip";
 import CommentMoreButton from "./CommentMoreButton";
+import Linkify from "../Linkify";
 
 interface CommentProps {
   comment: CommentData;
@@ -22,7 +23,7 @@ export default function Comment({ comment }: CommentProps) {
           </Link>
         </UserTooltip>
       </span>
-      <div>
+      <div className="flex-1">
         <div className="flex items-center gap-1 text-sm">
           <UserTooltip user={comment.user}>
             <Link
@@ -36,7 +37,11 @@ export default function Comment({ comment }: CommentProps) {
             {formatRelativeDate(comment.createdAt)}
           </span>
         </div>
-        <div>{comment.content}</div>
+        <Linkify>
+          <div className="whitespace-pre-line break-words">
+            {comment.content}
+          </div>
+        </Linkify>
       </div>
       {comment.user.id === user.id && (
         <CommentMoreButton
