@@ -117,3 +117,13 @@
 .str-chat__channel-search-bar-button--exit-search {
   display: none;
 }
+
+/* #menu-toggle:checked + label + #menu {
+  display: flex;
+}
+
+@media (min-width: 1024px) {
+  #menu {
+    display: none;
+  }
+} */

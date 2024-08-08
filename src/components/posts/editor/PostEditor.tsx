@@ -11,16 +11,16 @@ import StarterKit from "@tiptap/starter-kit";
 import { useDropzone } from "@uploadthing/react";
 import { ImageIcon, Loader2, X } from "lucide-react";
 import Image from "next/image";
-import { ClipboardEvent, useRef } from "react";
+import { ClipboardEvent, useRef, useState } from "react";
 import { useSubmitPostMutation } from "./mutations";
 import "./styles.css";
 import useMediaUpload, { Attachment } from "./useMediaUpload";
 
 export default function PostEditor() {
   const { user } = useSession();
-
   const mutation = useSubmitPostMutation();
-
+  const [rideOption, setRideOption] = useState('');
+  
   const {
     startUpload,
     attachments,
@@ -47,24 +47,40 @@ export default function PostEditor() {
       }),
     ],
   });
-  const input =
-    editor?.getText({
-      blockSeparator: "\n",
-    }) || "";
+  
+  const input = editor?.getText({ blockSeparator: "\n" }) || "";
 
   function onSubmit() {
-    mutation.mutate(
-      {
-        content: input,
-        mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
-      },
-      {
-        onSuccess: () => {
-          editor?.commands.clearContent();
-          resetMediaUploads();
+    const confirmMessage = 
+      "Please remember to include the following details:\n" +
+      "- Your destination and arrival locations\n" +
+      "- Date and time of travel\n" +
+      "- The number of passengers you can accommodate or need\n" +
+      "- Any desired fees\n\n" +
+      "Do you want to submit your post?";
+
+    if (window.confirm(confirmMessage)) {
+      let contentWithHashtag = input;
+      if (rideOption === "wantRide") {
+        contentWithHashtag += "\n#wantaride"; // New line before hashtag
+      } else if (rideOption === "offerRide") {
+        contentWithHashtag += "\n#offeraride"; // New line before hashtag
+      }
+    
+      mutation.mutate(
+        {
+          content: contentWithHashtag,
+          mediaIds: attachments.map((a) => a.mediaId).filter(Boolean) as string[],
         },
-      },
-    );
+        {
+          onSuccess: () => {
+            editor?.commands.clearContent();
+            resetMediaUploads();
+            setRideOption(''); // Reset ride option
+          },
+        },
+      );
+    }
   }
 
   function onPaste(e: ClipboardEvent<HTMLInputElement>) {
@@ -90,6 +106,31 @@ export default function PostEditor() {
           <input {...getInputProps()} />
         </div>
       </div>
+      
+      {/* Ride options */}
+      <div className="flex items-center gap-4 justify-end mr-4">
+        <label className="flex items-center">
+          <input
+            type="radio"
+            value="wantRide"
+            checked={rideOption === "wantRide"}
+            onChange={() => setRideOption("wantRide")}
+            className="mr-2"
+          />
+          Want a Ride
+        </label>
+        <label className="flex items-center">
+          <input
+            type="radio"
+            value="offerRide"
+            checked={rideOption === "offerRide"}
+            onChange={() => setRideOption("offerRide")}
+            className="mr-2"
+          />
+          Offer a Ride
+        </label>
+      </div>
+
       {!!attachments.length && (
         <AttachmentPreviews
           attachments={attachments}
@@ -110,7 +151,7 @@ export default function PostEditor() {
         <LoadingButton
           onClick={onSubmit}
           loading={mutation.isPending}
-          disabled={!input.trim() || isUploading}
+          disabled={!input.trim() || isUploading || !rideOption}
           className="min-w-20"
         >
           Post
@@ -144,8 +185,7 @@ function AddAttachmentsButton({
       </Button>
       <input
         type="file"
-        // accept="image/*, video/*"
-        accept = "image/*"
+        accept="image/*"
         multiple
         ref={fileInputRef}
         className="sr-only hidden"

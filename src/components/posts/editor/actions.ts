@@ -1,3 +1,4 @@
+//componenets/posts/editor/actions.ts
 "use server";
 import { validateRequest } from "@/auth";
 import prisma from "@/lib/prisma";
