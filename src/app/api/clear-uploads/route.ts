@@ -8,7 +8,7 @@ export async function GET(req: Request) {
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return Response.json(
         { message: "Invalid authorization header" },
-        { status: 401 },
+        { status: 401 }
       );
     }
 
@@ -18,7 +18,7 @@ export async function GET(req: Request) {
         ...(process.env.NODE_ENV === "production"
           ? {
               createdAt: {
-                lte: new Date(Date.now() - 1000 * 60 * 60 * 24),
+                lte: new Date(Date.now() - 1000 * 60 * 60 * 24), // 24 hours
               },
             }
           : {}),
@@ -29,11 +29,13 @@ export async function GET(req: Request) {
       },
     });
 
-    new UTApi().deleteFiles(
+    console.log(`Found ${unusedMedia.length} unused media items.`);
+
+    await new UTApi().deleteFiles(
       unusedMedia.map(
         (m) =>
-          m.url.split(`/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`)[1],
-      ),
+          m.url.split(`/a/${process.env.NEXT_PUBLIC_UPLOADTHING_APP_ID}/`)[1]
+      )
     );
 
     await prisma.media.deleteMany({
@@ -44,7 +46,7 @@ export async function GET(req: Request) {
       },
     });
 
-    return new Response();
+    return Response.json({ message: "Unused media cleared successfully" }, { status: 200 });
   } catch (error) {
     console.error(error);
     return Response.json({ error: "Internal server error" }, { status: 500 });
