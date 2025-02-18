@@ -3,7 +3,6 @@ import { redirect } from "next/navigation";
 import SessionProvider from "./SessionProvider";
 import Navbar from "./Navbar";
 import MenuBar from "./MenuBar";
-import { Analytics } from "@vercel/analytics/react"
 
 export default async function Layout({children,}: {children: React.ReactNode;}) {
     const session = await validateRequest();
@@ -19,7 +18,6 @@ export default async function Layout({children,}: {children: React.ReactNode;}) 
                 {children}
                 </div>
                 <MenuBar className="sticky bottom-0 flex w-full justify-center gap-5 border-t bg-card p-3 sm:hidden"/>
-                <Analytics />
             </div>
     </SessionProvider>
     );
