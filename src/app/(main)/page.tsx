@@ -22,7 +22,7 @@ export default function Home() {
           </TabsContent>
         </Tabs>
       </div>
-      {/* <TrendsSidebar /> */}
+      <TrendsSidebar />
     </main>
   );
 }
