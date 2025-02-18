@@ -44,7 +44,7 @@ const Guideline: React.FC = () => {
           <strong>Distractions:</strong> Minimize distractions while driving, such as using cell phones or eating.
         </li>
         <li>
-          <strong>Rider Behavior:</strong> As a rider, be considerate of the driver's time and space.
+          <strong>Rider Behavior:</strong> As a rider, be considerate of the driver time and space.
         </li>
         <li>
           <strong>Driver Responsibilities:</strong> Create a safe and comfortable environment for passengers.
@@ -59,7 +59,7 @@ const Guideline: React.FC = () => {
           <strong>Postings:</strong> Create clear and informative carpool postings, including departure/arrival points, times, number of seats available, and any preferences (smoking, pets, music).
         </li>
         <li>
-          <strong>Communication:</strong> Use the D-Pool platform's messaging system for efficient communication with carpool partners.
+          <strong>Communication:</strong> Use the D-Pool platform messaging system for efficient communication with carpool partners.
         </li>
         <li>
           <strong>Privacy:</strong> Protect personal information and avoid sharing sensitive details publicly.
@@ -74,7 +74,7 @@ const Guideline: React.FC = () => {
           <strong>Communication:</strong> Attempt to resolve disputes amicably through open communication.
         </li>
         <li>
-          <strong>Mediation:</strong> Utilize the D-Pool platform's mediation services if necessary.
+          <strong>Mediation:</strong> Utilize the D-Pool platform mediation services if necessary.
         </li>
         <li>
           <strong>Reporting Issues:</strong> Report any violations of the guidelines to D-Pool administrators.
@@ -85,7 +85,9 @@ const Guideline: React.FC = () => {
 
       <h3 className="text-lg font-semibold mb-2">Disclaimer</h3>
       <p>
-        D-Pool is a platform to connect potential carpool partners. The college assumes no liability for accidents, injuries, or damages arising from carpooling activities. Participants are encouraged to exercise caution and good judgment.
+        D-Pool is a platform to connect potential carpool partners. 
+        The college assumes no liability for accidents, injuries, or damages arising from carpooling activities. 
+        Participants are encouraged to exercise caution and good judgment.
       </p>
 
       <div className="my-4" />
